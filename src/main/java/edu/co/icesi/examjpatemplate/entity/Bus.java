@@ -1,6 +1,6 @@
 package edu.co.icesi.examjpatemplate.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import java.util.List;
 
@@ -12,10 +12,13 @@ public class Bus {
 
     private String licensePlate;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "route_id")
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler", "buses"})
     private Route route;
 
-    @OneToMany(mappedBy = "bus", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "bus", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnoreProperties("bus")
     private List<GeoPoint> geoPoints;
 
     public Integer getId() {
