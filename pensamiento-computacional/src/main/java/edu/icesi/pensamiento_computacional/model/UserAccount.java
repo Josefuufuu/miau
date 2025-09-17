@@ -6,13 +6,13 @@ import java.util.Set;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
@@ -50,16 +50,22 @@ public class UserAccount {
     @Column(name="profile_photo_url", nullable=true)
     private String profilePhotoUrl;
 
-    @Column(name="user_type", nullable=false)
-    @Enumerated(EnumType.STRING)
-    private UserType userType;
-
     @Column(name="created_at")
     private LocalDateTime createdAt;
 
-    @ManyToOne(optional=true, fetch=FetchType.LAZY)    
+    @ManyToOne(optional=true, fetch=FetchType.LAZY)
     @JoinColumn(name="self_declared_level")
     private LevelTier selfDeclaredLevel;
+
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(
+        name = "USER_ACCOUNT_ROLE",
+        joinColumns = @JoinColumn(name = "user_account_id"),
+        inverseJoinColumns = @JoinColumn(name = "role_id")
+    )
+    @ToString.Exclude
+    private Set<Role> roles = new HashSet<>();
 
 
     @OneToMany(mappedBy = "createdBy", fetch = FetchType.LAZY)

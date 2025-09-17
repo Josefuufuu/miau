@@ -1,11 +1,47 @@
 -- Tabla: USER_ACCOUNT
-INSERT INTO USER_ACCOUNT (id, institutional_email, password_hash, full_name, profile_photo_url, user_type, created_at, self_declared_level)
+INSERT INTO USER_ACCOUNT (id, institutional_email, password_hash, full_name, profile_photo_url, created_at, self_declared_level)
 VALUES
-(1, 'user1@icesi.edu.co', 'hash1', 'User Uno', NULL, 'STUDENT', CURRENT_TIMESTAMP, NULL),
-(2, 'user2@icesi.edu.co', 'hash2', 'User Dos', NULL, 'PROFESSOR', CURRENT_TIMESTAMP, NULL),
-(3, 'user3@icesi.edu.co', 'hash3', 'User Tres', NULL, 'STUDENT', CURRENT_TIMESTAMP, NULL),
-(4, 'user4@icesi.edu.co', 'hash4', 'User Cuatro', NULL, 'PROFESSOR', CURRENT_TIMESTAMP, NULL),
-(5, 'user5@icesi.edu.co', 'hash5', 'User Cinco', NULL, 'STUDENT', CURRENT_TIMESTAMP, NULL);
+(1, 'user1@icesi.edu.co', 'hash1', 'User Uno', NULL, CURRENT_TIMESTAMP, NULL),
+(2, 'user2@icesi.edu.co', 'hash2', 'User Dos', NULL, CURRENT_TIMESTAMP, NULL),
+(3, 'user3@icesi.edu.co', 'hash3', 'User Tres', NULL, CURRENT_TIMESTAMP, NULL),
+(4, 'user4@icesi.edu.co', 'hash4', 'User Cuatro', NULL, CURRENT_TIMESTAMP, NULL),
+(5, 'user5@icesi.edu.co', 'hash5', 'User Cinco', NULL, CURRENT_TIMESTAMP, NULL);
+
+-- Tabla: PERMISSION
+INSERT INTO PERMISSION (id, name, description)
+VALUES
+(1, 'VIEW_ACTIVITIES', 'Permite consultar las actividades disponibles'),
+(2, 'SUBMIT_SOLUTIONS', 'Permite enviar respuestas para ejercicios'),
+(3, 'GRADE_SUBMISSIONS', 'Permite evaluar y asignar puntajes a respuestas'),
+(4, 'MANAGE_USERS', 'Permite administrar usuarios y roles de la plataforma');
+
+-- Tabla: ROLE
+INSERT INTO ROLE (id, name, description)
+VALUES
+(1, 'STUDENT', 'Rol para estudiantes inscritos en los cursos'),
+(2, 'PROFESSOR', 'Rol para profesores encargados de evaluar actividades'),
+(3, 'ADMIN', 'Rol administrativo con privilegios de gestión');
+
+-- Tabla intermedia: ROLE_PERMISSION
+INSERT INTO ROLE_PERMISSION (role_id, permission_id)
+VALUES
+(1, 1),
+(1, 2),
+(2, 1),
+(2, 3),
+(3, 1),
+(3, 3),
+(3, 4);
+
+-- Tabla intermedia: USER_ACCOUNT_ROLE
+INSERT INTO USER_ACCOUNT_ROLE (user_account_id, role_id)
+VALUES
+(1, 1),
+(2, 2),
+(2, 3),
+(3, 1),
+(4, 2),
+(5, 1);
 
 -- Tabla: LEVEL_TIER
 INSERT INTO LEVEL_TIER (code)
