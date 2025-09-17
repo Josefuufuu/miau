@@ -1,5 +1,6 @@
 package edu.co.icesi.examjpatemplate.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
@@ -13,8 +14,9 @@ public class GeoPoint {
     private Double longitude;
     private LocalDateTime timestamp;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "bus_id")
+    @JsonIgnore
     private Bus bus;
 
     public Integer getId() {
