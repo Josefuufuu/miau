@@ -17,9 +17,9 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.ActiveProfiles;
 
 import edu.icesi.pensamiento_computacional.model.Enrollment;
-import edu.icesi.pensamiento_computacional.repository.IEnrollmentRepository;
+import edu.icesi.pensamiento_computacional.model.EnrollmentId;
+import edu.icesi.pensamiento_computacional.repository.EnrollmentRepository;
 import edu.icesi.pensamiento_computacional.services.IEnrollmentService;
-import jakarta.xml.bind.annotation.W3CDomHandler;
 
 @SpringBootTest
 @ActiveProfiles("test")
@@ -29,32 +29,33 @@ public class EnrollmentRepositoryTest {
    private IEnrollmentService enrollmentService;
 
    @MockBean
-   private IEnrollmentRepository enrollmentRepository;
+   private EnrollmentRepository enrollmentRepository;
 
-   	@Test
-	void contextLoads() {
-	}
+        @Test
+        void contextLoads() {
+        }
 
 
-   @Test 
+   @Test
    void findByTermTest(){
 
     //Arrange
     Integer termId = 123;
+    Integer studentId = 1;
     Enrollment e = new Enrollment();
-    e.setId(1);
+    e.setId(new EnrollmentId(termId, studentId));
     e.setEnrolledOn(LocalDateTime.now());
-    
-    when(enrollmentRepository.findByTerm_Id(termId)).thenReturn(List.of(e));
+
+    when(enrollmentRepository.findByAcademicTerm_Id(termId)).thenReturn(List.of(e));
 
     var result = enrollmentService.findByTerm(termId);
 
     assertNotNull(result);
-    assertNotNull(result);
     assertEquals(1, result.size());
-    assertEquals(1, result.get(0).getId());
+    assertEquals(termId, result.get(0).getId().getAcademicTermId());
+    assertEquals(studentId, result.get(0).getId().getStudentId());
 
-    verify(enrollmentRepository, times(1)).findByTerm_Id(termId);
+    verify(enrollmentRepository, times(1)).findByAcademicTerm_Id(termId);
     verifyNoMoreInteractions(enrollmentRepository);
 
 
