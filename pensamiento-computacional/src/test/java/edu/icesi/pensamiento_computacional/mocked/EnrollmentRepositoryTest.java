@@ -38,8 +38,6 @@ public class EnrollmentRepositoryTest {
 
    @Test
    void findByTermTest(){
-
-    //Arrange
     Integer termId = 123;
     Integer studentId = 1;
     Enrollment e = new Enrollment();
